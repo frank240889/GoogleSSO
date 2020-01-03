@@ -2,7 +2,9 @@ package com.example.googlesso;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,8 +76,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
           mActivityMainBinding.progressBar.setVisibility(View.VISIBLE);
-          Intent signIntent = mGoogleSignInClient.getSignInIntent();
-          startActivityForResult(signIntent, RC_SIGN_IN);
+          //Intent signIntent = mGoogleSignInClient.getSignInIntent();
+          //startActivityForResult(signIntent, RC_SIGN_IN);
+            /*Intent intent = new Intent(Settings.ACTION_SETTINGS);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+              startActivity(intent);
+            }*/
+
+          final Intent i = new Intent();
+          i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+          i.addCategory(Intent.CATEGORY_DEFAULT);
+          i.setData(Uri.parse("package:com.google.android.gms"));
+          i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+          i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+          startActivity(i);
         }
       });
     }
